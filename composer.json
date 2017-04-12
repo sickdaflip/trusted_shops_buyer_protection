@@ -1,0 +1,15 @@
+{
+  "name": "sickdaflip/trusted_shops_buyer_protection",
+  "type": "magento-module",
+  "license": "MIT",
+  "description": "Magento Module Trusted Shops Käuferschutz",
+  "authors": [
+    {
+      "name": "SickDaFlip",
+      "email": "philippbreitsprecher@gmail.com"
+    }
+  ],
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  }
+}
