@@ -15,10 +15,7 @@
  * @category  Symmetrics
  * @package   Symmetrics_Buyerprotect
  * @author    symmetrics - a CGI Group brand <info@symmetrics.de>
- * @author    Torsten Walluhn <tw@symmetrics.de>
- * @author    Benjamin Klein <bk@symmetrics.de>
- * @author    Ngoc Anh Doan <ngoc-anh.doan@cgi.com>
- * @copyright 2010-2014 symmetrics - a CGI Group brand
+ * @copyright 2010-2015 symmetrics - a CGI Group brand
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @link      https://github.com/symmetrics/trustedshops_buyerprotection/
  * @link      http://www.symmetrics.de/
@@ -31,12 +28,7 @@
  * @category  Symmetrics
  * @package   Symmetrics_Buyerprotect
  * @author    symmetrics - a CGI Group brand <info@symmetrics.de>
- * @author    Torsten Walluhn <tw@symmetrics.de>
- * @author    Ngoc Anh Doan <nd@symmetrics.de>
- * @author    Benjamin Klein <bk@symmetrics.de>
- * @author    Andreas Timm <at@symmetrics.de>
- * @author    Ngoc Anh Doan <ngoc-anh.doan@cgi.com>
- * @copyright 2010-2014 symmetrics - a CGI Group brand
+ * @copyright 2010-2015 symmetrics - a CGI Group brand
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @link      https://github.com/symmetrics/trustedshops_buyerprotection/
  * @link      http://www.symmetrics.de/
@@ -238,8 +230,8 @@ class Symmetrics_Buyerprotect_Model_Observer
     public function checkCertificate($observer)
     {
         $params = Mage::app()->getRequest()->getParams();
-        if (isset($params['groups']['data']['fields']['trustedshops_id']['value'])) {
-            $tsId = trim($params['groups']['data']['fields']['trustedshops_id']['value']);
+        if (isset($params['groups']['data']['fields']['trustedrating_id']['value'])) {
+            $tsId = trim($params['groups']['data']['fields']['trustedrating_id']['value']);
         }
         if (!isset($tsId) || is_null($tsId)) {
             return;
@@ -275,26 +267,26 @@ class Symmetrics_Buyerprotect_Model_Observer
             $tsData = Mage::getModel('buyerprotect/service_soap')->checkCertificate($tsId);
 
             if ($tsData['variation'] == 'CLASSIC') {
-                $variation = Symmetrics_Buyerprotect_Model_System_Config_Source_Variation::CLASSIC_VALUE;
+                Mage::getSingleton('core/session')->addNotice(
+                    $helper->__('Variation CLASSIC is not supported anymore. Disabled buyer protection.')
+                );
+                $helper->setConfigData(
+                    Symmetrics_Buyerprotect_Helper_Data::XML_PATH_TS_BUYERPROTECT_IS_ACTIVE,
+                    0,
+                    $scope,
+                    $scopeId
+                );
             } else {
-                $variation = Symmetrics_Buyerprotect_Model_System_Config_Source_Variation::EXCELLENCE_VALUE;
                 $productsModel = Mage::getModel('buyerprotect/products');
                 $productsModel->recreateProducts(false, $website, $store);
+                $notice = $helper->__(
+                    'Checking Trusted Shops ID: %s | Buyer Protection version: %s',
+                    $tsId,
+                    $tsData['variation']
+                );
+                Mage::getSingleton('core/session')->addNotice($notice);
+
             }
-
-            $helper->setConfigData(
-                Symmetrics_Buyerprotect_Helper_Data::XML_PATH_TS_BUYERPROTECT_VARIATION,
-                $variation,
-                $scope,
-                $scopeId
-            );
-
-            $notice = $helper->__(
-                'Checking Trusted Shops ID: %s | Buyer Protection version: %s',
-                $tsId,
-                $tsData['variation']
-            );
-            Mage::getSingleton('core/session')->addNotice($notice);
         }
     }
 }

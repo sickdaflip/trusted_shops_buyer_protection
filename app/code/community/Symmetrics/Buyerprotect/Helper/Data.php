@@ -15,9 +15,7 @@
  * @category  Symmetrics
  * @package   Symmetrics_Buyerprotect
  * @author    symmetrics - a CGI Group brand <info@symmetrics.de>
- * @author    Torsten Walluhn <tw@symmetrics.de>
- * @author    Ngoc Anh Doan <ngoc-anh.doan@cgi.com>
- * @copyright 2010-2014 symmetrics - a CGI Group brand
+ * @copyright 2010-2015 symmetrics - a CGI Group brand
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @link      https://github.com/symmetrics/trustedshops_buyerprotection/
  * @link      http://www.symmetrics.de/
@@ -30,9 +28,7 @@
  * @category  Symmetrics
  * @package   Symmetrics_Buyerprotect
  * @author    symmetrics - a CGI Group brand <info@symmetrics.de>
- * @author    Torsten Walluhn <tw@symmetrics.de>
- * @author    Ngoc Anh Doan <ngoc-anh.doan@cgi.com>
- * @copyright 2010-2014 symmetrics - a CGI Group brand
+ * @copyright 2010-2015 symmetrics - a CGI Group brand
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @link      https://github.com/symmetrics/trustedshops_buyerprotection/
  * @link      http://www.symmetrics.de/
@@ -46,11 +42,10 @@ class Symmetrics_Buyerprotect_Helper_Data
      */
     const XML_PATH_TS_BUYERPROTECT = 'buyerprotection/data';
     const XML_PATH_TS_BUYERPROTECT_IS_ACTIVE = 'buyerprotection/data/active';
-    const XML_PATH_TS_BUYERPROTECT_TS_ID   = 'buyerprotection/data/trustedshops_id';
+    const XML_PATH_TS_BUYERPROTECT_TS_ID   = 'trustedrating/data/trustedrating_id';
     const XML_PATH_TS_BUYERPROTECT_TS_USER = 'buyerprotection/data/trustedshops_user';
     const XML_PATH_TS_BUYERPROTECT_TS_PASSWORD = 'buyerprotection/data/trustedshops_password';
     const XML_PATH_TS_BUYERPROTECT_TS_WSDL_URL = 'buyerprotection/data/trustedshops_url';
-    const XML_PATH_TS_BUYERPROTECT_VARIATION = 'buyerprotection/data/variation';
 
     const XML_PATH_TS_AVAILABLE_PAYMENT_CODES = 'trusted_shops_payment_codes';
     const XML_PATH_TS_PAYMENT_MAPPING = 'buyerprotection/payment_mapping';
@@ -315,24 +310,6 @@ class Symmetrics_Buyerprotect_Helper_Data
         return Mage::getStoreConfigFlag(self::XML_PATH_TS_BUYERPROTECT_IS_ACTIVE);
     }
 
-    /**
-     * Get buyer protection variation.
-     *
-     * @return string [classic|excellence]
-     */
-    public function getVariation()
-    {
-        $variation = Mage::getStoreConfig(
-            Symmetrics_Buyerprotect_Helper_Data::XML_PATH_TS_BUYERPROTECT_VARIATION
-        );
-        
-        if ($variation == Symmetrics_Buyerprotect_Model_System_Config_Source_Variation::CLASSIC_VALUE) {
-            return 'classic';
-        }
-        
-        return 'excellence';
-    }
-    
     /**
      * JSON encoded HTML content which should be insert underneath the sku input
      * field.
