@@ -1,0 +1,7 @@
+{
+  "name": "sickdaflip/trusted_shops_buyer_protection",
+  "type": "magento-module",
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  }
+}
